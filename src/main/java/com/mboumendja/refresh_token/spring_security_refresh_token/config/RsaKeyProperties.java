@@ -1,4 +1,4 @@
-package com.mboumendja.refresh_token.config;
+package com.mboumendja.refresh_token.spring_security_refresh_token.config;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;

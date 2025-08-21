@@ -1,4 +1,4 @@
-package com.mboumendja.refresh_token.entity;
+package com.mboumendja.refresh_token.spring_security_refresh_token.entity;
 
 import java.time.LocalDateTime;
 import java.util.Collection;

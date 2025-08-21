@@ -1,4 +1,4 @@
-package com.mboumendja.refresh_token.entity;
+package com.mboumendja.refresh_token.spring_security_refresh_token.entity;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -31,11 +33,11 @@ public class RefreshToken {
     private String token;
 
     @Column(nullable = false)
-    @Builder.Default
-    private boolean isRevoked = false;
-
-    @Column(nullable = false)
     private Instant expiryDate;
+
+    @ManyToOne()
+    @JoinColumn(name= "user_id", nullable= false)
+    private User user;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

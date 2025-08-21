@@ -1,4 +1,4 @@
-package com.mboumendja.refresh_token.dto;
+package com.mboumendja.refresh_token.spring_security_refresh_token.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

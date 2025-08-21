@@ -1,4 +1,4 @@
-package com.mboumendja.refresh_token.jwt;
+package com.mboumendja.refresh_token.spring_security_refresh_token.jwt;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.mboumendja.refresh_token.config.RsaKeyProperties;
+import com.mboumendja.refresh_token.spring_security_refresh_token.config.RsaKeyProperties;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.JWSHeader;
@@ -90,19 +90,13 @@ public class JwtService {
         }
     }
 
-    public boolean isAccessTokenValid(String token, UserDetails userDetails) {
+    public boolean isTokenValid(String token, UserDetails userDetails) {
         try {
             SignedJWT signedJWT = SignedJWT.parse(token);
             
             // Verify signature
             RSASSAVerifier verifier = new RSASSAVerifier(rsaKeyProperties.getPublicKey());
             if (!signedJWT.verify(verifier)) {
-                return false;
-            }
-            
-            // Check expiration
-            boolean isExpired = isAccessTokenExpired(token);
-            if (isExpired) {
                 return false;
             }
             
@@ -115,11 +109,7 @@ public class JwtService {
         }
     }
 
-    public boolean isRefreshTokenValid() {
-        return false;
-    }
-
-    public boolean isAccessTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         try {
             SignedJWT signedJWT = SignedJWT.parse(token);
             Date expirationTime = signedJWT.getJWTClaimsSet().getExpirationTime();
@@ -129,9 +119,6 @@ public class JwtService {
         }
     }
 
-    public boolean isRefreshTokenExpired() {
-        return false;
-    }
 
     public boolean isAccessTokenBlackListed(String token) {
         try {

@@ -1,4 +1,4 @@
-package com.mboumendja.refresh_token.utils;
+package com.mboumendja.refresh_token.spring_security_refresh_token.utils;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -6,11 +6,13 @@ import java.util.Optional;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
+import org.springframework.stereotype.Component;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+@Component
 public class CookieUtil {
 
     public static void addTokenCookies(HttpServletResponse response, String accessToken, String refreshToken) {
@@ -25,7 +27,7 @@ public class CookieUtil {
     private static void addCookie(HttpServletResponse response, String name, String value, int maxAge) {
         ResponseCookie cookie = ResponseCookie.from(name, value)
             .httpOnly(true)
-            .secure(true)
+            .secure(false) // true for https
             .path("/")
             .maxAge(Duration.ofSeconds(maxAge))
             .sameSite("Strict")

@@ -1,4 +1,4 @@
-package com.mboumendja.refresh_token.security;
+package com.mboumendja.refresh_token.spring_security_refresh_token.security;
 
 import java.util.List;
 
@@ -23,9 +23,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.mboumendja.refresh_token.jwt.JwtAuthenticationFilter;
-import com.mboumendja.refresh_token.jwt.JwtService;
-import com.mboumendja.refresh_token.service.CustomUserDetailsService;
+import com.mboumendja.refresh_token.spring_security_refresh_token.jwt.JwtAuthenticationFilter;
+import com.mboumendja.refresh_token.spring_security_refresh_token.jwt.JwtService;
+import com.mboumendja.refresh_token.spring_security_refresh_token.service.CustomUserDetailsService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/api/user/me", "/actuator/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/actuator/**").permitAll()
                         //.requestMatchers("/api/admin/**").hasRole("ADMIN")
                         //.requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()

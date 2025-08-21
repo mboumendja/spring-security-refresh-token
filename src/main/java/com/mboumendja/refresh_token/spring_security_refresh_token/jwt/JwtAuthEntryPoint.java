@@ -1,4 +1,4 @@
-package com.mboumendja.refresh_token.jwt;
+package com.mboumendja.refresh_token.spring_security_refresh_token.jwt;
 
 import java.io.IOException;
 import java.util.HashMap;
