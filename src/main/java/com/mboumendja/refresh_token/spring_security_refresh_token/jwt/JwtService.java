@@ -55,32 +55,6 @@ public class JwtService {
         }
     }
 
-    public String generateRefreshToken(UserDetails userDetails){
-        try {
-            Date now = new Date();
-            Date expiryDate = new Date(now.getTime() + jwtConfig.getRefreshExpiration());
-
-            JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                        .subject(userDetails.getUsername())
-                        .issuer(jwtConfig.getIssuer())
-                        .issueTime(now)
-                        .expirationTime(expiryDate)
-                        .build();
-            SignedJWT signedJWT = new SignedJWT(
-                new JWSHeader.Builder(JWSAlgorithm.RS256).build(),
-                claimsSet
-            );
-                
-            RSASSASigner signer = new RSASSASigner(rsaKeyProperties.getPrivateKey());
-            signedJWT.sign(signer);
-            
-            return signedJWT.serialize();
-            
-        } catch (Exception e) {
-            throw new RuntimeException("Error generating JWT token", e);
-        }
-    }
-
     public String extractUsername(String token) {
         try {
             SignedJWT signedJWT = SignedJWT.parse(token);

@@ -1,4 +1,4 @@
-package com.mboumendja.refresh_token.spring_security_refresh_token.controller;
+package com.mboumendja.refresh_token.spring_security_refresh_token.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

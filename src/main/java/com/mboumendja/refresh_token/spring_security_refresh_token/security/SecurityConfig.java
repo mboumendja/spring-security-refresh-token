@@ -23,6 +23,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.mboumendja.refresh_token.spring_security_refresh_token.jwt.JwtAuthEntryPoint;
 import com.mboumendja.refresh_token.spring_security_refresh_token.jwt.JwtAuthenticationFilter;
 import com.mboumendja.refresh_token.spring_security_refresh_token.jwt.JwtService;
 import com.mboumendja.refresh_token.spring_security_refresh_token.service.CustomUserDetailsService;
@@ -37,6 +38,7 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
     private final JwtService jwtService;
+    private final JwtAuthEntryPoint jwtAuthEntryPoint;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -54,6 +56,7 @@ public class SecurityConfig {
                         //.requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest().authenticated()
                 )
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(jwtAuthEntryPoint))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)

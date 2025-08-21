@@ -1,6 +1,7 @@
 package com.mboumendja.refresh_token.spring_security_refresh_token.service;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -60,7 +61,7 @@ public class UserService {
         User user = (User) authentication.getPrincipal();
 
         String accesToken = jwtService.generateAccessToken(user);
-        String refreshToken = jwtService.generateRefreshToken(user);
+        String refreshToken = UUID.randomUUID().toString();
 
         saveRefreshToken(refreshToken, user);
 
@@ -79,21 +80,18 @@ public class UserService {
     }
 
     public ResponseEntity<?> refreshToken (String refreshToken, HttpServletResponse response) {
-        // we should check if the token is first expired
-        final String username = jwtService.extractUsername(refreshToken);
-        if(!valideRefreshToken(refreshToken, username)) {
-            throw new RuntimeException("Invalid refresh token");
-        }
 
         RefreshToken storedToken = refreshTokenRepository.findByToken(refreshToken)
             .orElseThrow(() -> new RuntimeException("Refresh token not found"));
 
-        if(!jwtService.isTokenExpired(refreshToken)) {
+        Instant now = Instant.now();
+
+        if(now.isAfter(storedToken.getExpiryDate())) {
             refreshTokenRepository.delete(storedToken);
             throw new RuntimeException("Expired refresh token");
         }
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(storedToken.getUser().getUsername());
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
